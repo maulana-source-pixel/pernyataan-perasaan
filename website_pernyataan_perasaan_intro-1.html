@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#100b1c">
+<title>Sebuah Pesan Untukmu ♡</title>
+<style>
+:root{--pink:#ff80b5;--hot:#ff4f91;--cream:#fff6fb;--muted:#e7cfe0}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--cream);font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(ellipse at 50% 100%,#542647 0%,#24152f 42%,#100b1c 82%);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(#fff 1px,transparent 1.5px),radial-gradient(#ffb9d7 1px,transparent 1.5px);background-size:85px 85px,137px 137px;background-position:0 0,33px 41px;opacity:.5}
+main{position:relative;width:min(740px,92%);margin:auto;padding:30px 0 46px;text-align:center}
+.intro{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:22px;background:radial-gradient(ellipse at center,#3b1c3a,#100b1c 75%);transition:opacity .8s,visibility .8s}
+.intro.hide{opacity:0;visibility:hidden;pointer-events:none}
+.intro-inner{max-width:430px;width:100%;text-align:center}
+.intro h1{font-size:clamp(2rem,8vw,3rem);line-height:1.15;margin:20px 0 10px}
+.intro p{color:var(--muted);line-height:1.7}
+.envelope-button{position:relative;width:180px;height:125px;margin:20px auto 28px;border:0;background:transparent;cursor:pointer;display:block;filter:drop-shadow(0 8px 20px #ff4f9140)}
+.envelope{position:absolute;inset:22px 0 0;background:linear-gradient(145deg,#ff9bc5,#ed4f8c);border-radius:8px;overflow:hidden}
+.envelope:before{content:"";position:absolute;inset:0;background:linear-gradient(35deg,transparent 49%,#ffd0e2 50%,transparent 51%),linear-gradient(-35deg,transparent 49%,#ffcee1 50%,transparent 51%)}
+.flap{position:absolute;left:0;top:22px;width:0;height:0;border-left:90px solid transparent;border-right:90px solid transparent;border-top:67px solid #ffb3d1;transform-origin:top;transition:transform .6s;z-index:2}
+.letter-icon{position:absolute;z-index:1;left:50%;top:0;transform:translateX(-50%);font-size:52px;transition:transform .6s}
+.envelope-button:hover .letter-icon{transform:translate(-50%,-8px)}
+button{border:0;border-radius:999px;padding:14px 22px;font:inherit;font-weight:750;cursor:pointer;transition:transform .2s,box-shadow .2s}
+button:hover{transform:translateY(-2px);box-shadow:0 8px 28px #ff4f9140}
+.primary{background:linear-gradient(120deg,var(--pink),var(--hot));color:white}
+.secondary{background:#ffffff12;border:1px solid #ffffff35;color:var(--cream)}
+.mark{font-size:3rem;color:var(--pink);text-shadow:0 0 28px #ff5c9c;animation:pulse 1.8s infinite}
+.eyebrow{letter-spacing:.2em;text-transform:uppercase;color:#e5b5d4;font-size:.75rem}
+h2{font-size:clamp(2.2rem,8vw,4rem);line-height:1.08;margin:14px 0}
+h2 span,.signature{color:var(--pink);font-family:Georgia,serif;font-style:italic}
+.subtitle{color:#e6d8e8;line-height:1.7;margin:0 auto 25px;max-width:560px}
+.letter-wrap{opacity:0;transform:translateY(24px) scale(.98);max-height:0;overflow:hidden;transition:opacity .9s,transform .9s,max-height 1s}
+.letter-wrap.show{opacity:1;transform:translateY(0) scale(1);max-height:1200px}
+.card{border:1px solid #ff83b9aa;border-radius:24px;background:#221933d9;box-shadow:0 0 38px #ff4f9120,inset 0 0 24px #ffffff06;padding:clamp(22px,5vw,38px);text-align:left;backdrop-filter:blur(10px)}
+.card-title{display:flex;align-items:center;gap:12px;font-size:1.1rem;font-weight:700;color:var(--pink);margin-bottom:20px}
+.card-title:after{content:"";height:1px;background:#ff79ad66;flex:1}
+.message{font-size:1rem;line-height:1.9;color:#f7eefa;white-space:pre-line}
+.signature{text-align:center;font-size:clamp(1.7rem,5vw,2.5rem);margin:22px 0}
+.buttons{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:24px 0 10px}
+.response{display:none;text-align:center;margin:20px auto 0;padding:18px;border-radius:18px;background:#ff79ad17;border:1px solid #ff79ad66;line-height:1.7}
+.response.show{display:block;animation:fadeUp .6s both}
+footer{color:#bdaec5;font-size:.84rem;margin-top:20px}
+details{margin-top:24px;text-align:left;padding:18px;border:1px solid #ffffff24;border-radius:18px;background:#ffffff08}
+summary{cursor:pointer;color:#e9cce0;font-weight:700}
+.fields{display:grid;gap:12px;margin-top:15px}
+label{font-size:.88rem;color:#e6d8e8}
+input,textarea{display:block;width:100%;margin-top:6px;background:#130f23;color:white;border:1px solid #ffffff2b;border-radius:12px;padding:12px;font:inherit}
+textarea{min-height:100px;resize:vertical}
+.small{font-size:.8rem;color:#bdaec5;line-height:1.6}
+audio{width:100%;margin-top:12px}
+.floating{position:fixed;pointer-events:none;bottom:-40px;color:#ff8db9;opacity:.8;animation:floatUp linear forwards;z-index:20}
+main{z-index:1}
+@keyframes pulse{50%{transform:scale(1.08);text-shadow:0 0 38px #ff5c9c}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes floatUp{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<section class="intro" id="intro">
+  <div class="intro-inner">
+    <div class="eyebrow">ada pesan khusus untukmu</div>
+    <button class="envelope-button" id="openEnvelope" aria-label="Buka surat">
+      <span class="letter-icon">💌</span>
+      <span class="envelope"></span><span class="flap" id="flap"></span>
+    </button>
+    <h1>Seseorang ingin<br>mengatakan sesuatu...</h1>
+    <p>Ketuk amplopnya untuk membuka sebuah pesan kecil dari hati. ♡</p>
+    <button class="primary" id="startBtn">Buka surat ♡</button>
+  </div>
+</section>
+<main>
+  <div class="mark">♡</div>
+  <div class="eyebrow">sebuah pesan kecil dari hati</div>
+  <h2>Aku Punya Sesuatu<br>Untuk <span id="headingName">Kamu...</span></h2>
+  <p class="subtitle">Ada hal yang sudah lama ingin kusampaikan. Hari ini, aku memberanikan diri untuk jujur. ♡</p>
+  <div class="letter-wrap" id="letterWrap">
+    <section class="card">
+      <div class="card-title">✉ Pesan untukmu</div>
+      <div class="message" id="messageText">Aku senang bisa mengenalmu. Entah sejak kapan, kehadiranmu membuat hari-hariku terasa lebih berwarna.
+
+Aku mungkin belum pandai mengungkapkan perasaan, tapi kali ini aku ingin mencoba jujur.
+
+Ada satu hal yang ingin kamu tahu...</div>
+      <div class="signature" id="confession">Aku suka kamu ♡</div>
+      <div class="message" style="text-align:center">Kamu tidak harus menjawab sekarang. Apa pun jawabanmu, terima kasih sudah meluangkan waktu membaca pesan ini.</div>
+    </section>
+    <div class="buttons">
+      <button class="primary" id="revealBtn">♡ Baca pesan terakhir</button>
+      <button class="secondary" id="musicBtn">♫ Pilih musik</button>
+    </div>
+    <div class="response" id="response" aria-live="polite"></div>
+  </div>
+  <footer>Dibuat dengan keberanian kecil dan perasaan yang tulus ✨</footer>
+  <details id="settings">
+    <summary>⚙ Sesuaikan nama dan pesan</summary>
+    <div class="fields">
+      <label>Nama orang yang dituju
+        <input id="nameInput" placeholder="Contoh: Aulia" maxlength="40">
+      </label>
+      <label>Pesan utama
+        <textarea id="messageInput" maxlength="1200">Aku senang bisa mengenalmu. Entah sejak kapan, kehadiranmu membuat hari-hariku terasa lebih berwarna.
+
+Aku mungkin belum pandai mengungkapkan perasaan, tapi kali ini aku ingin mencoba jujur.
+
+Ada satu hal yang ingin kamu tahu...</textarea>
+      </label>
+      <label>Kalimat pengakuan
+        <input id="confessionInput" value="Aku suka kamu ♡" maxlength="120">
+      </label>
+      <button class="primary" id="applyBtn">Terapkan perubahan</button>
+      <div>
+        <label for="audioFile">Musik latar (pilih file audio dari HP)</label>
+        <input id="audioFile" type="file" accept="audio/*">
+        <audio id="audioPlayer" controls hidden></audio>
+        <p class="small">Pilih musik sendiri. Browser biasanya tidak mengizinkan musik diputar otomatis sebelum ada interaksi.</p>
+      </div>
+    </div>
+  </details>
+</main>
+<script>
+const $=id=>document.getElementById(id);let opened=false;
+function openLetter(){
+ $('flap').style.transform='rotateX(180deg)';
+ for(let i=0;i<10;i++)setTimeout(makeHeart,i*70);
+ setTimeout(()=>{$('intro').classList.add('hide');$('letterWrap').classList.add('show');window.scrollTo({top:0,behavior:'smooth'})},550);
+}
+$('openEnvelope').addEventListener('click',openLetter);
+$('startBtn').addEventListener('click',openLetter);
+$('revealBtn').addEventListener('click',()=>{
+ const box=$('response');
+ if(!opened){box.textContent='Aku suka kamu. Aku tidak tahu bagaimana perasaanmu, dan aku tidak ingin membuatmu merasa tertekan. Aku hanya ingin kamu tahu apa yang kurasakan. ♡';box.classList.add('show');$('revealBtn').textContent='♡ Terima kasih sudah membaca';opened=true;for(let i=0;i<24;i++)setTimeout(makeHeart,i*75)}
+ else{box.textContent='Terima kasih sudah membaca sampai akhir. Semoga harimu menyenangkan! ♡'}
+});
+$('musicBtn').addEventListener('click',()=>{
+ const player=$('audioPlayer');
+ if(player.src){if(player.paused){player.play().catch(()=>{});}else player.pause();}
+ else{$('settings').open=true;$('response').textContent='Pilih file musik di bagian pengaturan, lalu tekan tombol putar pada pemutar audio.';$('response').classList.add('show');$('audioFile').scrollIntoView({behavior:'smooth',block:'center'})}
+});
+$('audioFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const player=$('audioPlayer');if(player.dataset.url)URL.revokeObjectURL(player.dataset.url);const url=URL.createObjectURL(file);player.src=url;player.dataset.url=url;player.hidden=false});
+$('audioPlayer').addEventListener('play',()=>$('musicBtn').textContent='Ⅱ Jeda musik');
+$('audioPlayer').addEventListener('pause',()=>$('musicBtn').textContent='♫ Putar musik');
+$('applyBtn').addEventListener('click',()=>{
+ const name=$('nameInput').value.trim();$('headingName').textContent=name?name+'...':'Kamu...';$('messageText').textContent=$('messageInput').value;$('confession').textContent=$('confessionInput').value||'Aku suka kamu ♡';$('response').classList.remove('show');opened=false;$('revealBtn').textContent='♡ Baca pesan terakhir';
+});
+function makeHeart(){const el=document.createElement('span');el.className='floating';el.textContent=['♡','♥','✦','💗'][Math.floor(Math.random()*4)];el.style.left=Math.random()*100+'vw';el.style.fontSize=(15+Math.random()*23)+'px';el.style.animationDuration=(3+Math.random()*3)+'s';document.body.appendChild(el);setTimeout(()=>el.remove(),6500)}
+setInterval(()=>{if(!document.hidden)makeHeart()},1900);
+</script>
+</body>
+</html>
